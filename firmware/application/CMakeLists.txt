@@ -214,7 +214,7 @@ set(CPPSRC
 	ui/ui_tabview.cpp
 	ui/ui_textentry.cpp
 	ui/ui_transmitter.cpp
-	apps/ui_about.cpp
+	apps/ui_about_simple.cpp
 	apps/ui_adsb_rx.cpp
 	apps/ui_adsb_tx.cpp
 	apps/ui_afsk_rx.cpp
@@ -231,6 +231,7 @@ set(CPPSRC
 	apps/ui_keyfob.cpp
 	apps/ui_lcr.cpp
 	apps/lge_app.cpp
+	apps/ui_looking_glass_app.cpp
 	apps/ui_mictx.cpp
 	apps/ui_modemsetup.cpp
 	apps/ui_morse.cpp

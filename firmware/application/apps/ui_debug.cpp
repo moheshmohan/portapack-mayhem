@@ -121,7 +121,7 @@ void TemperatureWidget::paint(Painter& painter) {
 }
 
 TemperatureWidget::temperature_t TemperatureWidget::temperature(const sample_t sensor_value) const {
-	return -45 + sensor_value * 5;
+	return -35 + sensor_value * 4;  //max2837 datasheet temp 25ºC has sensor value: 15
 }
 
 std::string TemperatureWidget::temperature_str(const temperature_t temperature) const {
@@ -321,24 +321,24 @@ void DebugControlsView::focus() {
 
 DebugPeripheralsMenuView::DebugPeripheralsMenuView(NavigationView& nav) {
 	add_items({
-		{ "RFFC5072",    ui::Color::white(),	nullptr,	[&nav](){ nav.push<RegistersView>(
+		{ "RFFC5072",    ui::Color::dark_cyan(),	&bitmap_icon_peripherals_details,	[&nav](){ nav.push<RegistersView>(
 			"RFFC5072", RegistersWidgetConfig { 31, 16 },
 			[](const size_t register_number) { return radio::debug::first_if::register_read(register_number); }
 		); } },
-		{ "MAX2837",     ui::Color::white(),	nullptr,	[&nav](){ nav.push<RegistersView>(
+		{ "MAX2837",     ui::Color::dark_cyan(),	&bitmap_icon_peripherals_details,	[&nav](){ nav.push<RegistersView>(
 			"MAX2837", RegistersWidgetConfig { 32, 10 },
 			[](const size_t register_number) { return radio::debug::second_if::register_read(register_number); }
 		); } },
-		{ "Si5351C",     ui::Color::white(),	nullptr,	[&nav](){ nav.push<RegistersView>(
+		{ "Si5351C",     ui::Color::dark_cyan(),	&bitmap_icon_peripherals_details,	[&nav](){ nav.push<RegistersView>(
 			"Si5351C", RegistersWidgetConfig { 96, 8 },
 			[](const size_t register_number) { return portapack::clock_generator.read_register(register_number); }
 		); } },
-		{ audio::debug::codec_name(), ui::Color::white(),	nullptr,	[&nav](){ nav.push<RegistersView>(
+		{ audio::debug::codec_name(), ui::Color::dark_cyan(),	&bitmap_icon_peripherals_details,	[&nav](){ nav.push<RegistersView>(
 			audio::debug::codec_name(), RegistersWidgetConfig { audio::debug::reg_count(), audio::debug::reg_bits() },
 			[](const size_t register_number) { return audio::debug::reg_read(register_number); }
 		); } },
 	});
-	on_left = [&nav](){ nav.pop(); };
+	set_max_rows(2); // allow wider buttons
 }
 
 /* DebugMenuView *********************************************************/
@@ -346,12 +346,12 @@ DebugPeripheralsMenuView::DebugPeripheralsMenuView(NavigationView& nav) {
 DebugMenuView::DebugMenuView(NavigationView& nav) {
 	add_items({
 		//{ "..",				ui::Color::light_grey(),&bitmap_icon_previous,	[&nav](){ nav.pop(); } },
-		{ "Memory", 		ui::Color::white(),	&bitmap_icon_soundboard,	[&nav](){ nav.push<DebugMemoryView>(); } },
+		{ "Memory", 		ui::Color::dark_cyan(),	&bitmap_icon_memory,	[&nav](){ nav.push<DebugMemoryView>(); } },
 		//{ "Radio State",	ui::Color::white(),	nullptr,	[&nav](){ nav.push<NotImplementedView>(); } },
-		{ "SD Card",		ui::Color::white(),	&bitmap_icon_file,	[&nav](){ nav.push<SDCardDebugView>(); } },
-		{ "Peripherals",	ui::Color::white(),	&bitmap_icon_debug,	[&nav](){ nav.push<DebugPeripheralsMenuView>(); } },
-		{ "Temperature",	ui::Color::white(),	&bitmap_icon_transmit,	[&nav](){ nav.push<TemperatureView>(); } },
-		{ "Controls",		ui::Color::white(),	&bitmap_icon_utilities,	[&nav](){ nav.push<DebugControlsView>(); } },
+		{ "SD Card",		ui::Color::dark_cyan(),	&bitmap_icon_sdcard,	[&nav](){ nav.push<SDCardDebugView>(); } },
+		{ "Peripherals",	ui::Color::dark_cyan(),	&bitmap_icon_peripherals,	[&nav](){ nav.push<DebugPeripheralsMenuView>(); } },
+		{ "Temperature",	ui::Color::dark_cyan(),	&bitmap_icon_temperature,	[&nav](){ nav.push<TemperatureView>(); } },
+		{ "Buttons test",	ui::Color::dark_cyan(),	&bitmap_icon_controls,	[&nav](){ nav.push<DebugControlsView>(); } },
 	});
 	set_max_rows(2); // allow wider buttons
 }

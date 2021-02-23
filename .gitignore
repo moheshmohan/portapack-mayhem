@@ -59,7 +59,11 @@ CMakeFiles/
 # Editor files
 *.sublime-project
 *.sublime-workspace
+.vscode
 
 # Host OS leftovers
 .DS_Store
 /firmware/CMakeCache.txt
+
+# Python env
+env/

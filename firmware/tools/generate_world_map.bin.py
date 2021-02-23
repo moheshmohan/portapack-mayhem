@@ -23,7 +23,7 @@ import sys
 import struct
 from PIL import Image
 
-outfile = open('../../sdcard/world_map.bin', 'wb')
+outfile = open('../../sdcard/ADSB/world_map.bin', 'wb')
 
 # Allow for bigger images
 Image.MAX_IMAGE_PIXELS = None
@@ -32,6 +32,8 @@ pix = im.load()
 
 outfile.write(struct.pack('H', im.size[0]))
 outfile.write(struct.pack('H', im.size[1]))
+
+print("Generating: \t" + outfile.name + "\n from\t\t" + im.filename + "\n please wait...");
 
 for y in range (0, im.size[1]):
 	line = ''
@@ -45,6 +47,8 @@ for y in range (0, im.size[1]):
 		# pixel_lcd = (pix[x, y][0] >> 5) << 5
 		# pixel_lcd |= (pix[x, y][1] >> 5) << 2
 		# pixel_lcd |= (pix[x, y][2] >> 6)
-		line += struct.pack('H', pixel_lcd)
-	outfile.write(line)
+		line += str(struct.pack('H', pixel_lcd))
+	outfile.write(line.encode('utf-8'))
 	print(str(y) + '/' + str(im.size[1]) + '\r', end="")
+
+print("Ready.");
